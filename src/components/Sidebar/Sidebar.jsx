@@ -32,7 +32,9 @@ export const Sidebar = () => {
       icon: "ic:baseline-credit-card",
       to: "/tarjeta",
     },
-    { label: "Mi perfil", icon: "ic:baseline-account-circle", to: "/mi-perfil" },
+    { label: "Mi perfil", 
+      icon: "ic:baseline-account-circle", 
+      to: "/mi-perfil" },
   ];
   return (
     <div className=" justify-center h-screen p-2 bg-white dark:bg-bg-dark transition-all duration-300 flex flex-col">

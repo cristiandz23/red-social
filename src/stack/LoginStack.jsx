@@ -9,6 +9,7 @@ export const useCrearUsuarioYSesionMutate = () => {
     return useMutation({
         mutationKey: ["Iniciar con email test"],
         mutationFn: async () => {
+            if (!credenciales) return;
             console.log("use y log " + credenciales.email)
             await crearUserYLogin({
                 email: credenciales.email,
@@ -22,6 +23,7 @@ export const useCrearUsuarioYSesionMutate = () => {
         },
         onSuccess: () => {
             toast.success("Usuario creado e iniciado sesión correctamente+")
+            
         }
     });
 };
