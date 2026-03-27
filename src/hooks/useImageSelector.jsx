@@ -60,6 +60,7 @@ export const useImageSelector = () => {
         setFile("");
         setFileUrl("");
         setFileType("");
+        setFilePost(null);
         if (fileInputRef.current) {
             fileInputRef.current.value = "";
         };
@@ -94,13 +95,13 @@ export const useImageSelector = () => {
     }
 
     return {
-        file, isDragging, fileUrl, fileType, fileInputRef,
+        file, isDragging, fileUrl, fileType, fileInputRef, setFilePost,
         handleImageChange, openFileSelector, removeImage, handledDragEnter, hanldeDragLeave, hanldeDragDrop, handleDragOver,setStateImage
     }
 }
 
 export const ImageSelector = () => {
-    const { file, isDragging, fileUrl, fileType, fileInputRef,
+    const { file, isDragging, fileUrl, fileType, fileInputRef, setFilePost,
         hanfleImageChange, handleImageChange, openFileSelector, removeImage, handledDragEnter, hanldeDragLeave,
         hanldeDragDrop, handleDragOver,setStateImage } = useImageSelector()
     return <div className="relative w-full max-w-md
@@ -111,7 +112,11 @@ export const ImageSelector = () => {
             <h2 className="text-white font-medium">agregar fotos o videos</h2>
             <button className="absolute right-4 text-gray-400
                  hover:text-white transition-colors duration-200">
-                <Icon icon="mdi:close" onClick={setStateImage} className="text-xl" />
+                <Icon icon="mdi:close" onClick={()=>{
+                    setStateImage();
+                    setFilePost(null)
+                }}
+                     className="text-xl" />
             </button>
         </header>
         <main className={`p-8 flex flex-col items-center justify-center 

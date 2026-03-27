@@ -16,9 +16,9 @@ export const FormPost = () => {
     const pickerRef = useRef(null);
     const [postText, setPostText] = useState("")
     const {stateImage, setStateImage, setStateForm,file} = usePostStore();
+    const canPosting = postText.trim().length>0 || file !== null ;
     const {mutate,isPending} = useInsertarPostMutate();
     const {handleSubmit,setValue} = useForm();
-    const canPosting = file !== null || postText.trim() > 0
 
     const addEmoji = (emojiData) => {
 
@@ -73,7 +73,7 @@ export const FormPost = () => {
                         </div>
                     </section>
 
-                    <form onSubmit={handleSubmit(mutate)}>
+                    <form onSubmit={handleSubmit(() => mutate({titulo:postText}))}>
                         <div
                             className="relative ">
                             <textarea
@@ -91,11 +91,12 @@ export const FormPost = () => {
                             }
                             <div className=" mt-4 flex items-center justify-between">
 
-                                <button disabled={!canPosting || isPending} type="submit" 
+                                <button 
+                                disabled={!canPosting || isPending}
+                                type="submit" 
                                 className={`text-white py-2 px-4 rounded-lg
-                                font-medium cursor-pointer 
-                                ${canPosting? "bg-primary cursor-pointer" : "bg-gray-400 cursor-not-allowed" }`}>
-                                    Publicar</button>
+                            font-medium ${canPosting? "bg-primary cursor-pointer" :"bg-gray-700 cursor-not-allowed "}`}>
+                                Publicar</button>
 
                                 <button onClick={() => {if(!stateImage){
                                     setShowEmojiPicker(!showEmpjiPicker )}
