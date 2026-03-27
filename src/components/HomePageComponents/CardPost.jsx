@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react"
 import { PostImageFrame } from "./PostImageFrame"
 
-export const CardPost = () => {
+export const CardPost = ({item}) => {
     return (
         <div className="border-b border-gray-500/50
         p-4">
@@ -24,7 +24,7 @@ export const CardPost = () => {
 
             </div>
             <div className="mt-3">
-                <p className="mt-2">tituo</p>
+                <p className="mt-2">{item.titulo}</p>
                 <div>
                     <PostImageFrame src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWFxl-2XD9MuKQDwDoMaz0KLgRQcR4EzS_Eg&s"} />
                 </div>

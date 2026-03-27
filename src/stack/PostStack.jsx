@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import { usePostStore } from "../store/PostStore"
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { usePostStore} from "../store/PostStore"
 import { useFormattedDate } from "../hooks/useFormattedDate";
 import {useUsuariosStore} from "../store/UsuariosStore"
 import { toast } from "sonner";
@@ -32,5 +32,27 @@ export const useInsertarPostMutate = () => {
         onSuccess: () => {
             toast.success("publicado")
         }
+    })
+}
+
+export const useMostrarPostQuery = () =>{
+
+    const {dataUsuarioAuth} = useUsuariosStore();
+    const {mostrarPost} = usePostStore();
+    const cantPorPagina = 5;
+
+    return useInfiniteQuery({
+        queryKey: ["mostrar post",{id_usuario:dataUsuarioAuth?.id}],
+        queryFn: async({pageParam}) => {
+            const data = await mostrarPost({id_usuario:dataUsuarioAuth?.id,desde:pageParam,limite:cantPorPagina})
+            return data;
+        },
+        getNextPageParam:(lastPage,allPages) => {
+            if(!lastPage || lastPage.lenght <cantPorPagina){
+                return undefined;
+            }
+            return allPages.lenght * cantPorPagina;
+        },
+        initialPageParam:0,
     })
 }
