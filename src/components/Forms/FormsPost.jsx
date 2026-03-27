@@ -15,7 +15,8 @@ export const FormPost = () => {
     const textareaRef = useRef(null);
     const pickerRef = useRef(null);
     const [postText, setPostText] = useState("")
-    const {stateImage, setStateImage, setStateForm} = usePostStore();
+    const {stateImage, setStateImage, setStateForm,file} = usePostStore();
+    const canPosting = postText.trim().length>0 || file !== null ;
     const {mutate,isPending} = useInsertarPostMutate();
     const {handleSubmit,setValue} = useForm();
 
@@ -72,7 +73,7 @@ export const FormPost = () => {
                         </div>
                     </section>
 
-                    <form onSubmit={handleSubmit(mutate)}>
+                    <form onSubmit={handleSubmit(() => mutate({titulo:postText}))}>
                         <div
                             className="relative ">
                             <textarea
@@ -90,8 +91,12 @@ export const FormPost = () => {
                             }
                             <div className=" mt-4 flex items-center justify-between">
 
-                                <button type="submit" className=" text-white py-2 px-4 rounded-lg
-                            font-medium bg-primary cursor-pointer">Publicar</button>
+                                <button 
+                                disabled={!canPosting || isPending}
+                                type="submit" 
+                                className={`text-white py-2 px-4 rounded-lg
+                            font-medium ${canPosting? "bg-primary cursor-pointer" :"bg-gray-700 cursor-not-allowed "}`}>
+                                Publicar</button>
 
                                 <button onClick={() => {if(!stateImage){
                                     setShowEmojiPicker(!showEmpjiPicker )}
